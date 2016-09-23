@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/src/java/controller/Name.java</file>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/web/WEB-INF/applicationContext.xml</file>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/src/java/service/HelloService.java</file>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/src/java/srecsys/model/Game.java</file>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/src/java/controller/HelloController.java</file>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/web/META-INF/context.xml</file>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/web/redirect.jsp</file>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/src/java/srecsys/recommendation/RecommendationController.java</file>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/web/WEB-INF/jsp/index.jsp</file>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/src/java/srecsys/recommendation/Games.java</file>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/web/WEB-INF/jsp/helloView.jsp</file>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/web/WEB-INF/web.xml</file>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/src/java/srecsys/Main.java</file>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/web/WEB-INF/dispatcher-servlet.xml</file>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/src/java/srecsys/scraper/GameScraper.java</file>
+            <file>file:/D:/NetBeansProjects/SRecSysSpring/web/WEB-INF/jsp/nameView.jsp</file>
+        </group>
+    </open-files>
+</project-private>

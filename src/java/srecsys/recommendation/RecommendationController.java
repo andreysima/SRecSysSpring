@@ -40,7 +40,7 @@ public class RecommendationController {
     
     public RecommendationController(){
         try {
-            BufferedReader br = new BufferedReader(new FileReader("data/stopwords.txt"));
+            BufferedReader br = new BufferedReader(new FileReader("D:/NetBeansProjects/SRecSysSpring/data/stopwords.txt"));
             String currentLine;
 
             while((currentLine = br.readLine()) != null){
@@ -191,7 +191,7 @@ public class RecommendationController {
     public Map<String, Double> computeIDF(){
         
         Map<String, Double> termIDF = new HashMap<>();
-        loadTerms("data/terms.txt");
+        loadTerms("D:/NetBeansProjects/SRecSysSpring/data/terms.txt");
         
         for(int i = 0; i < allTerms.size(); i++){
             int counter = 0;
@@ -213,7 +213,7 @@ public class RecommendationController {
         double IDF = 0.0;
         double TF = 0.0;
         
-        weightedTerm = loadInvertedFile("data/terms.txt");
+        weightedTerm = loadInvertedFile("D:/NetBeansProjects/SRecSysSpring/data/terms.txt");
         //            term        appID   logTF        
         for(Map.Entry<String, Map<String, Double>> termEntry : weightedTerm.entrySet()){
             //            appID  logTF*IDF
@@ -224,7 +224,7 @@ public class RecommendationController {
             }
         }
         
-        saveTermswithTFIDFToFile("data/termscounted.txt");
+        saveTermswithTFIDFToFile("D:/NetBeansProjects/SRecSysSpring/data/termscounted.txt");
         
 //        System.out.println("TFIDF "+weightedTerm.toString());
     }
@@ -243,7 +243,7 @@ public class RecommendationController {
 
             String sCurrentLine;
             
-            br = new BufferedReader(new FileReader("data/terms.txt"));
+            br = new BufferedReader(new FileReader("D:/NetBeansProjects/SRecSysSpring/data/terms.txt"));
 
             String pastAppID = "";
             while ((sCurrentLine = br.readLine()) != null) {
@@ -306,7 +306,7 @@ public class RecommendationController {
     
     public double computeCosineSimilarity(String appID1, String appID2){
         
-        TFIDFTerm = loadInvertedFile("data/termscounted.txt");
+        TFIDFTerm = loadInvertedFile("D:/NetBeansProjects/SRecSysSpring/data/termscounted.txt");
         double dotProduct = dotProductTwoVectors(appID1, appID2);
         double length1 = countVectorLength(appID1);
         double length2 = countVectorLength(appID2);

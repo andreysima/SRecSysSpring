@@ -10,13 +10,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Enter Your Name</title>
+        <title>Welcome</title>
     </head>
     <body>
-        <h1> Enter Your Name </h1>
+        <h1> Get your recommendation </h1>
         <spring:nestedPath path="name">
             <form action="" method="post">
-                Name:
+                Steam ID:
                 <spring:bind path="value">
                     <input type="text" name="${status.expression}" value="${status.value}">
                 </spring:bind>
