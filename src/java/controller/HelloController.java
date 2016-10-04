@@ -39,7 +39,7 @@ public class HelloController extends SimpleFormController {
         Name name = (Name) command;
         ModelAndView mv = new ModelAndView(getSuccessView());
         mv.addObject("helloMessage", helloService.sayHello(name.getValue()));
-        mv.addObject("gameList", helloService.throwGame());
+        mv.addObject("gameList", helloService.throwGame(name.getValue()));
         
         //Do something...
         return mv;

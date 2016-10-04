@@ -19,9 +19,9 @@ public class HelloService {
         return "Hello " + name + "!";
     }
     
-    public static List<Game> throwGame() throws Exception{
+    public static List<Game> throwGame(String appID) throws Exception{
                 
-        return Main.doRecommend();
+        return Main.doRecommend(appID);
     }
     
 }

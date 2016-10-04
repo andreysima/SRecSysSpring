@@ -17,6 +17,8 @@ import srecsys.scraper.UserGameScraper;
 import srecsys.scraper.UserScraper;
 
 public class Main {
+    private static final String steam64id = "76561198115471724";
+
     private static UserFriendScraper ufs;
     private static UserGameScraper ugs;
     private static UserScraper us;
@@ -68,55 +70,51 @@ public class Main {
         return recGameList;
     }
     
-    public static List<Game> doRecommend() throws IOException, Exception{
+    public static List<Game> doRecommend(String appID) throws IOException, Exception{
     
+        UserFriendScraper ufs = new UserFriendScraper();
+        UserGameScraper ugs = new UserGameScraper();
+        UserScraper us = new UserScraper();
         RecommendationController RC = new RecommendationController();
-        ufs = new UserFriendScraper();
-        ugs = new UserGameScraper();
-        us = new UserScraper();
+        Games steamgames = new Games();
         
-        steamgames = new Games();
-        ownedGenre = new HashSet<>();
-        gameResults = new HashMap<>();
-        recResultwithURL = new ArrayList<>();
+        Set<String> ownedGenre = new HashSet<>();
+        Map<String, Double> rankedGamesAppearance = new HashMap<>();
+        Map<String, Double> rankedGamesScore = new HashMap<>();
+        Map<String, Double> rankedGameswithFriend = new HashMap<>();
+        Map<String, Double> bonusScoreFromFriend = new HashMap<>();
+        Map<String, Integer> commonGamesinFriend = new HashMap<>();
+        List<String> gameList = new ArrayList<>();
         
-        String steam64id = "76561198118645234";
+        Map<String, Map<String,Double>> gameResultsScore = new HashMap<>();
+        Map<String, Map<String,Double>> gameResultsAppearance = new HashMap<>();
         
         //mengambil game, friendlist, dan info yang dimiliki user
-        ufs.scrape(steam64id);
-        ugs.scrape(steam64id);
-        us.scrape(steam64id);
+        
+        ufs.scrape(appID);
+        ugs.scrape(appID);
+        us.scrape(appID);
         
         //mengambil game yang ada di dalam Steam
         steamgames.loadTerms();
-//        RC.removeOwnedGames(steamgames, ugs); OOV gara gara ini
-        ownedGenre = RC.getOwnedGenres(ugs);
-        RC.removeNonGenreGames(ownedGenre, steamgames);
+        ownedGenre = RC.getOwnedGenres(ugs);                
         
         System.out.println("Owned game genre of "+us.personaname);
         System.out.println(ownedGenre.toString());
         System.out.println("");
         
-//        RC.saveTermsToFile("data/terms.txt", steamgames);
-//        invertedTerms = RC.loadInvertedFile("data/terms.txt");
-        RC.loadTerms("data/terms.txt");
-
-////////////////////////////////////////////////////////////////////////////////
-// JACCARD SIMILARITY///////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////             
-// penghitungan dengan kemunculan
-//
-        gameResults = RC.computeJaccardScore2(steamgames, ugs);
-        rankedGames = RC.recommendbyAppearance(steamgames, gameResults, ugs);
-//        System.out.println("tanpa friend: " + RC.sortandCutMap(rankedGames,12).toString());
+        RC.saveTermsToFile("D:/NetBeansProjects/SRecSysSpring/data/terms.txt", steamgames);
+        RC.loadTerms("D:/NetBeansProjects/SRecSysSpring/data/terms.txt");
         
+        gameResultsScore = RC.computeJaccardScore(steamgames, ugs);
+        rankedGamesScore = RC.recommendbyScore(gameResultsScore, ugs);
         gameList = RC.loadAllGames(steamgames);
-        commonGamesinFriend = RC.getCommonGames(gameList, ufs, ugs, steam64id);
+        commonGamesinFriend = RC.getCommonGames(gameList, ufs, ugs, appID);
         bonusScoreFromFriend = RC.bonusScoreFromFriends(commonGamesinFriend, ufs);
-        rankedGameswithFriend = RC.recommendbyScorewithFriend(rankedGames, bonusScoreFromFriend);
-        System.out.println("hasil rekomendasi: " + rankedGameswithFriend.toString());
-        
-        recommendationResult = new ArrayList<>(rankedGameswithFriend.keySet());
+        rankedGameswithFriend = RC.recommendbyScorewithFriend(rankedGamesScore, bonusScoreFromFriend);
+        System.out.println("Metode Skor Dengan Friend: " + RC.sortandCutMap(rankedGameswithFriend, 12).toString());        
+                
+        recommendationResult = new ArrayList<>(RC.sortandCutMap(rankedGameswithFriend, 12).keySet());
         
         recResultwithURL = scrapeURLforView(recommendationResult);  
         
@@ -135,7 +133,7 @@ public class Main {
         gameResults = new HashMap<>();
         recResultwithURL = new ArrayList<>();
         
-        String steam64id = "76561198118645234";
+        String steam64id = "76561198115471724";
         
         //mengambil game, friendlist, dan info yang dimiliki user
         ufs.scrape(steam64id);
@@ -175,9 +173,9 @@ public class Main {
 ////////////////////////////////////////////////////////////////////////////////
 // penghitungan dengan kemunculan
 //
-        gameResults = RC.computeJaccardScore2(steamgames, ugs);
+        gameResults = RC.computeJaccardScore(steamgames, ugs);
         rankedGames = RC.recommendbyAppearance(steamgames, gameResults, ugs);
-//        System.out.println("tanpa friend: " + RC.sortandCutMap(rankedGames,12).toString());
+        System.out.println("tanpa friend: " + RC.sortandCutMap(rankedGames,12).toString());
         
         gameList = RC.loadAllGames(steamgames);
         commonGamesinFriend = RC.getCommonGames(gameList, ufs, ugs, steam64id);
@@ -190,6 +188,22 @@ public class Main {
         recResultwithURL = scrapeURLforView(recommendationResult);
                 
 ////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////          
+////////////////////////////////////////////////////////////////////////////////
+//        System.out.println("570 dengan 400 = " + RC.computeJaccardSimilarity("570", "400"));
+//        System.out.println("400 dengan 620 = " + RC.computeJaccardSimilarity("400", "620"));
+//        System.out.println("570 dengan 292120 = " + RC.computeJaccardSimilarity("570", "292120"));
+//        System.out.println("292120 dengan 292140 = " + RC.computeJaccardSimilarity("292120", "292140"));
+//        System.out.println("292120 dengan 345350 = " + RC.computeJaccardSimilarity("292120", "345350"));
+//        System.out.println("292140 dengan 345350 = " + RC.computeJaccardSimilarity("292140", "345350"));
+//        System.out.println("292140 dengan 351970 = " + RC.computeJaccardSimilarity("292140", "351970"));
+//        System.out.println("292140 dengan 372360 = " + RC.computeJaccardSimilarity("292140", "372360"));
+//        System.out.println("351970 dengan 372360 = " + RC.computeJaccardSimilarity("351970", "372360"));
+//        System.out.println("351970 dengan 570 = " + RC.computeJaccardSimilarity("351970", "570"));
+//        System.out.println("72850 dengan 570 = " + RC.computeJaccardSimilarity("72850", "570"));
+//        System.out.println("400 dengan 252950 = " + RC.computeJaccardSimilarity("400", "252950"));
+//        System.out.println("72850 dengan 252950 = " + RC.computeJaccardSimilarity("72850", "252950"));
+//        System.out.println("570 dengan 252950 = " + RC.computeJaccardSimilarity("570", "252950"));
+//        System.out.println("292120 dengan 252950 = " + RC.computeJaccardSimilarity("292120", "252950"));
+//        System.out.println("570 dengan 351970 = " + RC.computeJaccardSimilarity("570", "351970"));
     }  
 }
